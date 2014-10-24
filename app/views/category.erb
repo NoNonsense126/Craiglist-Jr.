@@ -6,12 +6,16 @@
 </div>
 </header>
 
+
+
 <div class="container">
-  <CAPTION><EM><h1>Categories</h1></EM></CAPTION>
-  <% @category.each do |elem| %>
-  <%= "<a href = /#{elem.id}>" %>
+  <CAPTION><EM><h1>
+    <%= @category_name.capitalize %>
+  </h1></EM></CAPTION>
+  <% @posts.each do |elem| %>
+  <%= "<a href = /#{elem.title}>" %>
     <p>
-     <%= elem.name %>
+     <%= elem.title %>
     </p>
   </a>
   <% end %>

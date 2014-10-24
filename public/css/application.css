@@ -2,8 +2,24 @@
   margin: 20px auto;
   width: 600px;
   padding: 0px 20px 20px 20px;
-  border: 1px dotted black;
 }
 th {
   text-align: left;
+}
+
+.navbar-brand
+{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin: auto;
+}
+
+.header{
+  text-align: center;
+}
+
+.navbar .brand-right{
+  float: right;
 }
