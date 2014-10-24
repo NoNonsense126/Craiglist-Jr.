@@ -4,10 +4,46 @@ get '/' do
   erb :index
 end
 
+get '/new_post' do
+  @category = Category.all
+  erb :new_post
+end
+
+post '/post_complete' do
+  begin
+    params.each do |key,value|
+      raise ArgumentError.new if params[key]==""
+    end
+    post = Post.create(title: params[:title], body: params[:body], img_link: params[:img_link], location: params[:location], email: params[:email], phone: params[:phone], category_id: Category.where(name: params[:category])[0].name)
+    post.generate_edit_key
+    @key = post.edit_key
+    erb :post_complete
+  rescue ArgumentError
+    @error = "Form Incomplete"
+    erb :error
+  end
+end
+
+get '/edit' do
+  erb :edit_post
+end
+
+get %r{/([\d]+)/([\d]+)$} do
+  @post_id = request.path.split("/")[2].to_i
+  @post = Post.find(@post_id)
+  erb :posts
+end
 
 get %r{/([\d]+)$} do
-  category = Category.find(request.path[1..-1].to_i)
-  @category_name = category.name
-  @posts = category.posts
-  erb :category
+  begin
+    @category_path = request.path
+    category = Category.find(request.path[1..-1].to_i)
+    @category_name = category.name
+    @posts = category.posts
+    erb :category
+  rescue
+    @error = "Category Not Found"
+    erb :error
+  end
 end
+

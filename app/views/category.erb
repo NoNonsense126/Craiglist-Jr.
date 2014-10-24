@@ -1,19 +1,11 @@
-<header>
-<div class="navbar navbar-inverse navbar-fixed-top">
-  <div class="navbar-inner" text-align="right">
-   <a class="brand brand-right" href="#">New Post</a>
-  </div>
-</div>
-</header>
-
-
+<%= erb :_header %>
 
 <div class="container">
   <CAPTION><EM><h1>
     <%= @category_name.capitalize %>
   </h1></EM></CAPTION>
   <% @posts.each do |elem| %>
-  <%= "<a href = /#{elem.title}>" %>
+  <%= "<a href = #{@category_path}/#{elem.id}>" %>
     <p>
      <%= elem.title %>
     </p>

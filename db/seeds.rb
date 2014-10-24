@@ -8,11 +8,13 @@ class Seed
 
   def self.post_seed
     20.times do
-      Post.create(title: Faker::Lorem.sentence,
+      post = Post.create(title: Faker::Lorem.sentence,
+                  body: Faker::Lorem.paragraph,
                   location: Faker::Internet.url,
                   email: Faker::Internet.safe_email,
                   phone: Faker::PhoneNumber.phone_number,
                   category_id: (rand(13)+1))
+      post.generate_edit_key
     end
   end
 end
