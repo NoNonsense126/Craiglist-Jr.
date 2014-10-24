@@ -25,8 +25,12 @@ post '/post_complete' do
 end
 
 get '/edit' do
+  key_edit = params[:key]
+  post = Post.where(edit_key: key_edit)[0]
+
   erb :edit_post
 end
+
 
 get %r{/([\d]+)/([\d]+)$} do
   @post_id = request.path.split("/")[2].to_i
