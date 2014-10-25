@@ -14,7 +14,10 @@ post '/post_complete' do
     params.each do |key,value|
       raise ArgumentError.new if params[key]==""
     end
-    post = Post.create(title: params[:title], body: params[:body], img_link: params[:img_link], location: params[:location], email: params[:email], phone: params[:phone], category_id: Category.where(name: params[:category])[0].name)
+    post = Post.create(title: params[:title], body: params[:body], 
+                      img_link: params[:img_link], location: params[:location],
+                      email: params[:email], phone: params[:phone], 
+                      category_id: Category.where(name: params[:category])[0].id)
     post.generate_edit_key
     @key = post.edit_key
     erb :post_complete
@@ -25,11 +28,24 @@ post '/post_complete' do
 end
 
 get '/edit' do
+  @update = nil
+  @category = Category.all
   key_edit = params[:key]
-  post = Post.where(edit_key: key_edit)[0]
-
+  @post = Post.where(edit_key: key_edit)[0]
   erb :edit_post
 end
+
+post '/edit' do
+  @update = "Your post has been updated!"
+  @post = Post.find(params[:id].to_i)
+  @category = Category.all
+  Post.update(params[:id].to_i, title: params[:title], body: params[:body], 
+                      img_link: params[:img_link], location: params[:location],
+                      email: params[:email], phone: params[:phone], 
+                      category_id: Category.where(name: params[:category])[0].id)
+  erb :edit_post
+end
+
 
 
 get %r{/([\d]+)/([\d]+)$} do
